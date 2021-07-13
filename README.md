@@ -11,7 +11,7 @@ Como se puede ver en el diagrama, este representa una transferencia electronica 
 ## Iniciando modulo
 Para iniciar el modulo debemos hacer un go mod init.
 ```sh
-$ go mod init github.com/donreno/temporal-io-workshop-2021
+$ go mod init github.com/jclanas2019/temporal-io-workshop-2021
 ```
 Ojo con el nombre del repositorio en caso de que hagas un fork.
 
@@ -142,6 +142,61 @@ func notifySuccessfulTransfer(ctx workflow.Context, transfer Transfer) {
 	defer workflow.ExecuteActivity(ctx, NotifySuccessfulTransfer, transfer.Origin, transfer.Destination, transfer.Amount).Get(ctx, nil)
 }
 ```
+```go
+package workflow
+
+import (
+	"log"
+	"time"
+)
+
+func GetCustomerDetails(accountNumber string) (string, error) {
+	time.Sleep(time.Millisecond * 20)
+	log.Println("Cuenta identificada")
+	return "Cliente 1", nil
+}
+
+func IsRiskyCustomer(accountNumber string) (bool, error) {
+	time.Sleep(time.Millisecond * 100)
+	log.Println("Cliente no es riesgoso")
+	return false, nil
+}
+
+func ChargeAccount(accountNumber string, amount int) error {
+	time.Sleep(time.Millisecond * 30)
+	log.Println("Cargando", amount, "a cuenta", accountNumber)
+	return nil
+}
+
+func PayToAccount(accountNumber string, amount int) error {
+	time.Sleep(time.Millisecond * 30)
+	log.Println("Abonando", amount, "a cuenta", accountNumber)
+	return nil
+}
+
+func RevertCharge(accountNumber string, amount int) error {
+	time.Sleep(time.Millisecond * 30)
+	log.Println("Reversando cargo de", amount, "a cuenta", accountNumber)
+	return nil
+}
+
+func RevertPayment(accountNumber string, amount int) error {
+	time.Sleep(time.Millisecond * 30)
+	log.Println("Reversando abono de", amount, "a cuenta", accountNumber)
+	return nil
+}
+
+func NotifyFailedTransfer(origin, destination string, amount int) error {
+	log.Println("Transaccion fallida de", amount, "desde", origin, "hacia", destination)
+	return nil
+}
+
+func NotifySuccessfulTransfer(origin, destination string, amount int) error {
+	log.Println("Transaccion exitosa de", amount, "desde", origin, "hacia", destination)
+	return nil
+}
+```
+### 
 
 ### Starter
 Para poder iniciar este workflow construiremos una simple API rest con [fiber](https://gofiber.io/), para eso previamente tenemos creado un archivo `starter/main.go`.
