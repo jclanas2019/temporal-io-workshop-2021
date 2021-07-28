@@ -1,5 +1,14 @@
-# Workshop Temporal IO
+# Workshop Temporal IO - Modernizando hacia Banca Digital
 Esta es una guia/workshop de temporal.io desarrollando un caso especifico para un mejor entendimiento de temporal y por que es ideal para el desarrollo de workflows resilentes.
+
+## Intro Temporal.io
+
+* Workflow: Flujos de trabajo: funciones o métodos de objeto que son el punto de entrada y la base de su aplicación.
+* Activities: Actividades: funciones o métodos de objeto que manejan lógica empresarial no determinista.
+* Workers: Trabajadores: procesos que se ejecutan en máquinas físicas o virtuales que ejecutan código de flujo de trabajo y actividad.
+* Signals: Señales: llamadas de solo escritura a flujos de trabajo que pueden actualizar los valores de las variables y el estado del flujo de trabajo.
+* Queryes: Consultas: llamadas de solo lectura a flujos de trabajo que pueden recuperar los valores de retorno de la función y el estado del flujo de trabajo.
+* Task Queues: Colas de tareas: un mecanismo de enrutamiento que permite el equilibrio de carga.
 
 ## Caso de uso
 El caso de uso que tomaremos es un flujo simplificado de una transferencia electronica, donde aprovecharemos de entender algunos de los conceptos basicos de temporal.
@@ -11,7 +20,7 @@ Como se puede ver en el diagrama, este representa una transferencia electronica 
 ## Iniciando modulo
 Para iniciar el modulo debemos hacer un go mod init.
 ```sh
-$ go mod init github.com/donreno/temporal-io-workshop-2021
+$ go mod init github.com/jclanas2019/temporal-io-workshop-2021
 ```
 Ojo con el nombre del repositorio en caso de que hagas un fork.
 
@@ -142,6 +151,61 @@ func notifySuccessfulTransfer(ctx workflow.Context, transfer Transfer) {
 	defer workflow.ExecuteActivity(ctx, NotifySuccessfulTransfer, transfer.Origin, transfer.Destination, transfer.Amount).Get(ctx, nil)
 }
 ```
+```go
+package workflow
+
+import (
+	"log"
+	"time"
+)
+
+func GetCustomerDetails(accountNumber string) (string, error) {
+	time.Sleep(time.Millisecond * 20)
+	log.Println("Cuenta identificada")
+	return "Cliente 1", nil
+}
+
+func IsRiskyCustomer(accountNumber string) (bool, error) {
+	time.Sleep(time.Millisecond * 100)
+	log.Println("Cliente no es riesgoso")
+	return false, nil
+}
+
+func ChargeAccount(accountNumber string, amount int) error {
+	time.Sleep(time.Millisecond * 30)
+	log.Println("Cargando", amount, "a cuenta", accountNumber)
+	return nil
+}
+
+func PayToAccount(accountNumber string, amount int) error {
+	time.Sleep(time.Millisecond * 30)
+	log.Println("Abonando", amount, "a cuenta", accountNumber)
+	return nil
+}
+
+func RevertCharge(accountNumber string, amount int) error {
+	time.Sleep(time.Millisecond * 30)
+	log.Println("Reversando cargo de", amount, "a cuenta", accountNumber)
+	return nil
+}
+
+func RevertPayment(accountNumber string, amount int) error {
+	time.Sleep(time.Millisecond * 30)
+	log.Println("Reversando abono de", amount, "a cuenta", accountNumber)
+	return nil
+}
+
+func NotifyFailedTransfer(origin, destination string, amount int) error {
+	log.Println("Transaccion fallida de", amount, "desde", origin, "hacia", destination)
+	return nil
+}
+
+func NotifySuccessfulTransfer(origin, destination string, amount int) error {
+	log.Println("Transaccion exitosa de", amount, "desde", origin, "hacia", destination)
+	return nil
+}
+```
+### 
 
 ### Starter
 Para poder iniciar este workflow construiremos una simple API rest con [fiber](https://gofiber.io/), para eso previamente tenemos creado un archivo `starter/main.go`.
@@ -274,3 +338,7 @@ $ curl --location --request POST 'http://localhost:3000/transfer' \
 Probar matando la instancia de worker y/o temporal y volviendo a levantar para observar comportamiento.
 
 Finalmente se pueden ver los resultados de ejecucion del workflow en [http://localhost:8088](http://localhost:8088).
+
+1. Referencias:
+	* https://docs.temporal.io/docs/concepts/introduction
+	* https://docs.temporal.io/docs/server/introduction
