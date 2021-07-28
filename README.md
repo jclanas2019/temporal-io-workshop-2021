@@ -1,4 +1,4 @@
-# Workshop Temporal IO
+# Workshop Temporal IO - Modernizando hacia Banca Digital
 Esta es una guia/workshop de temporal.io desarrollando un caso especifico para un mejor entendimiento de temporal y por que es ideal para el desarrollo de workflows resilentes.
 
 ## Intro Temporal.io
