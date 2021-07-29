@@ -3,12 +3,12 @@ Esta es una guia/workshop de temporal.io desarrollando un caso especifico para u
 
 ## Intro Temporal.io
 
-* Workflow: Flujos de trabajo: funciones o métodos de objeto que son el punto de entrada y la base de su aplicación.
-* Activities: Actividades: funciones o métodos de objeto que manejan lógica empresarial no determinista.
-* Workers: Trabajadores: procesos que se ejecutan en máquinas físicas o virtuales que ejecutan código de flujo de trabajo y actividad.
-* Signals: Señales: llamadas de solo escritura a flujos de trabajo que pueden actualizar los valores de las variables y el estado del flujo de trabajo.
-* Queryes: Consultas: llamadas de solo lectura a flujos de trabajo que pueden recuperar los valores de retorno de la función y el estado del flujo de trabajo.
-* Task Queues: Colas de tareas: un mecanismo de enrutamiento que permite el equilibrio de carga.
+* **Workflow**: Flujos de trabajo: funciones o métodos de objeto que son el punto de entrada y la base de su aplicación.
+* **Activities**: Actividades: funciones o métodos de objeto que manejan lógica empresarial no determinista.
+* **Workers**: Trabajadores: procesos que se ejecutan en máquinas físicas o virtuales que ejecutan código de flujo de trabajo y actividad.
+* **Signals**: Señales: llamadas de solo escritura a flujos de trabajo que pueden actualizar los valores de las variables y el estado del flujo de trabajo.
+* **Queryes**: Consultas: llamadas de solo lectura a flujos de trabajo que pueden recuperar los valores de retorno de la función y el estado del flujo de trabajo.
+* **Task Queues**: Colas de tareas: un mecanismo de enrutamiento que permite el equilibrio de carga.
 
 ## Caso de uso
 El caso de uso que tomaremos es un flujo simplificado de una transferencia electronica, donde aprovecharemos de entender algunos de los conceptos basicos de temporal.
