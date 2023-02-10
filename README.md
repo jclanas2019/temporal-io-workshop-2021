@@ -1,6 +1,8 @@
 # Workshop Temporal IO - Modernizando hacia Banca Digital
 Esta es una guia/workshop de temporal.io desarrollando un caso especifico para un mejor entendimiento de temporal y por que es ideal para el desarrollo de workflows resilentes.
 
+https://www.youtube.com/watch?v=i1gH_xCXU_w&t=100s
+
 ## Intro Temporal.io
 
 * **Workflow**: Flujos de trabajo: funciones o métodos de objeto que son el punto de entrada y la base de su aplicación.
